@@ -1,0 +1,377 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Reju Conversation Practice</title>
+<style>
+:root{--navy:#17365d;--blue:#2b6cb0;--ice:#eaf6fc;--paper:#f2f6fa;--line:#d7e1eb;--ink:#101820;--mute:#5f6872;--rec:#b3261e}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font:18px/1.55 Calibri,Arial,sans-serif}
+main{max-width:920px;margin:auto;padding:32px 20px 48px}
+h1{font-size:36px;line-height:1.15;margin:0 0 10px}
+h2{font-size:26px;line-height:1.25;margin:0 0 6px}
+h3{font-size:20px;margin:0 0 8px;color:var(--navy)}
+p{margin:0 0 12px}
+.course{color:var(--blue);font-weight:bold;font-size:16px;margin:0 0 4px}
+.intro{max-width:760px;color:#2a3440}
+a{color:var(--blue)}
+button,select{font:inherit}
+button{font-weight:bold;background:var(--navy);color:#fff;border:0;border-radius:8px;padding:11px 18px;cursor:pointer}
+button.secondary{background:var(--ice);color:var(--navy);border:1px solid #b9d6e6}
+button.record{background:var(--rec)}
+button:disabled{opacity:.45;cursor:not-allowed}
+button:focus-visible,summary:focus-visible,select:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid var(--blue);outline-offset:3px}
+.embed-note{background:#fff7e0;border:1px solid #e8cf85;border-radius:8px;padding:12px 16px;margin:16px 0}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:22px 0 0}
+.tab{background:#fff;color:var(--navy);border:1px solid var(--line);border-bottom:0;border-radius:10px 10px 0 0;padding:12px 18px}
+.tab[aria-current="true"]{background:var(--navy);color:#fff;border-color:var(--navy)}
+.panel{background:#fff;border:1px solid var(--line);border-radius:0 12px 12px 12px;padding:26px}
+.steps{display:flex;gap:6px;list-style:none;margin:0 0 22px;padding:0}
+.steps li{flex:1;padding:8px 12px;border-bottom:4px solid var(--line);color:var(--mute);font-weight:bold;font-size:16px}
+.steps li.active{border-color:var(--blue);color:var(--navy)}
+.steps li.done{border-color:var(--navy);color:var(--navy)}
+.section{padding:22px 0;border-top:1px solid var(--line)}
+.section:first-of-type{border-top:0;padding-top:0}
+.meta{color:var(--mute);font-size:17px}
+.video-wrap{position:relative;overflow:hidden;aspect-ratio:16/9;margin:14px 0;border-radius:10px;background:var(--ink)}
+.video-wrap iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:10px 0}
+details{margin:10px 0}
+summary{cursor:pointer;color:var(--blue);font-weight:bold}
+.quote{border-left:4px solid var(--blue);padding:8px 18px;background:var(--paper);margin:10px 0}
+.task{background:var(--ice);padding:14px 18px;border-radius:8px;font-weight:bold}
+.stage{max-width:560px;margin:14px 0}
+.stage video{display:block;width:100%;aspect-ratio:4/3;background:var(--ink);border-radius:10px}
+.meter{height:8px;background:var(--line);border-radius:4px;margin-top:10px;overflow:hidden}
+.meter span{display:block;height:100%;width:0;background:var(--rec)}
+.clock{font-weight:bold;font-variant-numeric:tabular-nums;margin-top:6px}
+.msg{min-height:1.5em;color:var(--rec);font-weight:bold}
+.ok{color:var(--navy)}
+.upload{background:var(--ice);border-radius:8px;padding:14px 18px;margin-top:14px}
+.locked{background:var(--paper);border:1px dashed #9db3c8;border-radius:8px;padding:16px 18px}
+.linkbtn{background:none;color:var(--blue);padding:0;font-weight:normal;text-decoration:underline;border-radius:2px}
+.settings{margin:18px 0 0;font-size:16px}
+.settings .fields{display:flex;gap:16px;flex-wrap:wrap;margin-top:10px}
+.settings label{display:block;font-weight:bold;font-size:15px}
+.settings select{padding:8px;border:1px solid #bac7d6;border-radius:6px;max-width:280px}
+footer{font-size:14px;color:var(--mute);margin-top:28px}
+[hidden]{display:none!important}
+@media (max-width:560px){h1{font-size:30px}.panel{padding:18px}.steps li{font-size:14px;padding:6px 4px}}
+</style>
+</head>
+<body>
+<main>
+<p class="course">MGMT 315, Reju, Chapter 8</p>
+<h1>Listen. Respond. Compare.</h1>
+<p class="intro">Three fictional employee conversations for RASA, DESC, and Crucial Conversations. Watch the employee, record your response as the manager, then compare your words with one effective model response. There is more than one good answer, so look for the behaviors, not an exact script.</p>
+
+<div class="embed-note" id="embedNote" hidden>If the camera or microphone does not start, <a id="newTab" target="_blank" rel="noopener">open this page in its own tab</a> and try again.</div>
+
+<details class="settings" id="audioSettings">
+<summary>Audio settings for the read-aloud text</summary>
+<div class="fields">
+<div><label for="voice">Manager and narrator voice</label><select id="voice"></select></div>
+<div><label for="employeeVoice">Employee voice</label><select id="employeeVoice"></select></div>
+</div>
+</details>
+
+<nav class="tabs" id="tabs" aria-label="Vignettes"></nav>
+<div id="panels"></div>
+
+<footer>
+<p>Classroom applications of Chapter 8, <i>Essentials of Contemporary Business Leadership</i>, Talmage and Forbes. DESC follows the chapter's "Specify" wording. The Reju situations are invented for practice.</p>
+<p>Framework references: <a href="https://www.ted.com/talks/julian_treasure_5_ways_to_listen_better">Julian Treasure: RASA</a>, <a href="https://www.ahrq.gov/teamstepps-program/curriculum/mutual/tools/desc.html">AHRQ: DESC ("Suggest" variant)</a>, <a href="https://cruciallearning.com/glossary/">Crucial Learning glossary</a>.</p>
+</footer>
+</main>
+
+<script>
+/* ---------- Instructor settings ---------- */
+const CONFIG = {
+  // Paste the link to your Canvas assignment between the quotes. Leave blank to hide the button.
+  uploadUrl: '',
+  uploadLabel: 'Open the Canvas assignment'
+};
+
+const cases = [
+{
+  tab:'RASA', file:'RASA', maxSeconds:60,
+  title:'"Nobody asks what we can actually do."',
+  context:'You are a Reju manager. A supervisor comes to you after another schedule change. Your first job is to understand the concern before offering a solution.',
+  employee:'The training schedule changed again this morning. I already promised my team they could leave at four. Now I am the one who has to tell them to stay late. Nobody asks what we can actually do. Honestly, I am tired of being the bad guy.',
+  videoEmbed:'https://share.synthesia.io/embeds/videos/1c65bb95-1305-4741-8d96-b749ca5ad385',
+  task:'Respond as the manager. Use RASA to help the supervisor explain what matters. Do not jump straight to a solution.',
+  model:'Thanks for telling me. It sounds like the late change puts you in a difficult position with your team, especially after you already made a commitment. Have I understood that correctly? Which part of the change is creating the biggest problem for you and the team?',
+  why:'Receive: give the supervisor your attention and let them finish. Appreciate: acknowledge that they raised the concern. Summarize: reflect the meaning and check its accuracy. Ask: use an open question to learn more. In the real conversation, pause for their answer before asking the next question.',
+  debrief:'Did your response invite more information, or did it immediately try to fix the schedule?'
+},
+{
+  tab:'DESC', file:'DESC', maxSeconds:90,
+  title:'"I cannot be in two places at once."',
+  context:'You are a Reju manager giving feedback to a supervisor. The handoff report was due at four p.m. On Tuesday and Thursday it arrived at four thirty. The next shift started without the current updates. The supervisor responds.',
+  employee:'Yes, the reports were late. But people kept asking me for help, and I thought supporting the team was more important than paperwork. I cannot be in two places at once. What do you want me to do?',
+  videoEmbed:'https://share.synthesia.io/embeds/videos/03c8b8e4-f537-42df-9375-a8a059a5aefd',
+  task:'Respond as the manager. Use DESC: Describe, Express, Specify, Consequences. Be specific and invite a workable agreement.',
+  model:'On Tuesday and Thursday, the handoff report arrived at four thirty rather than four, so the next shift started without the current updates. I am concerned that those missing updates make it harder for them to prepare. Can we agree that you will protect the final fifteen minutes for the report and alert me by three forty five if urgent requests could delay it? We can arrange coverage together. That would give the next shift the information they need while making sure urgent requests are still handled. What would make that plan workable?',
+  why:'Describe: name observable behavior and timing. Express: state your concern without labeling the person. Specify: propose a concrete change and seek agreement. Consequences: explain the benefit for the work. The closing question makes the solution collaborative rather than assuming the employee can simply do more.',
+  debrief:'Did you address the missed expectation and the competing demands, or only one of them?'
+},
+{
+  tab:'Crucial Conversations', file:'CrucialConversations', maxSeconds:75,
+  title:'"The team is not ready."',
+  context:'You are Reju\u2019s operations leader. A supervisor says the launch plan leaves too little preparation time. Two scheduled training sessions did not happen this week. The supervisor believes another employee\u2019s reassuring update was incomplete. The launch decision matters, views differ, and emotions are rising.',
+  employee:'I heard what the manager told you, but the team is not ready. Two training sessions did not happen this week. When I bring that up, everybody acts like I am being negative. If we keep this date, I think we are setting people up to fail.',
+  videoEmbed:'https://share.synthesia.io/embeds/videos/be8a3f0b-080b-4953-ad61-bf72f1a2c1c4',
+  task:'Respond as the leader. Establish mutual purpose and respect. Use facts, a tentative interpretation, and an invitation to hear the supervisor\u2019s view.',
+  model:'I want us to launch successfully, and I want the team to be prepared. I am not questioning your commitment. I want to understand the readiness concern before we decide. We both know that two training sessions did not happen. My current understanding is that we may be able to make up that preparation before launch, but I could be missing something. Which tasks is the team not ready to perform, and what evidence should we review together? I want you to challenge my assessment if it does not fit what you are seeing.',
+  why:'The leader establishes mutual purpose and respect before debating the date. The missed sessions are facts; the belief that preparation can be recovered is a tentative interpretation. The questions invite the supervisor\u2019s perspective and encourage testing. Next, agree on who will review readiness, by when, who makes the decision, and how the team will follow up. Dialogue does not require instant agreement.',
+  debrief:'What words in your response made it safer to disagree with you?'
+}
+];
+
+/* ---------- Helpers ---------- */
+const $ = id => document.getElementById(id);
+const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const mmss = s => { s = Math.max(0, Math.ceil(s)); return Math.floor(s/60) + ':' + String(s%60).padStart(2,'0'); };
+const limitText = s => s % 60 === 0 ? (s/60) + ' minute' + (s===60?'':'s') : s + ' seconds';
+
+/* ---------- Read-aloud (accessibility) ---------- */
+let voices = [], tts = {token:0, btn:null};
+const hasSpeech = 'speechSynthesis' in window;
+
+function fillVoices(){
+  voices = speechSynthesis.getVoices();
+  for (const id of ['voice','employeeVoice']){
+    const s = $(id), old = s.value;
+    s.innerHTML = '';
+    voices.forEach((v,i) => { if (v.lang.startsWith('en')){ const o = document.createElement('option'); o.value = i; o.textContent = v.name + ' (' + v.lang + ')'; s.append(o); } });
+    if (!s.options.length){ const o = document.createElement('option'); o.value = ''; o.textContent = 'Default browser voice'; s.append(o); }
+    if (old && [...s.options].some(o => o.value === old)) s.value = old;
+  }
+  const emp = $('employeeVoice');
+  if (emp.options.length > 1 && !emp.dataset.set){ emp.value = emp.options[1].value; emp.dataset.set = '1'; }
+}
+if (hasSpeech){ fillVoices(); speechSynthesis.onvoiceschanged = fillVoices; } else { $('audioSettings').hidden = true; }
+
+function stopSpeech(){
+  tts.token++;
+  if (hasSpeech) speechSynthesis.cancel();
+  if (tts.btn){ tts.btn.textContent = tts.btn.dataset.label; tts.btn = null; }
+}
+
+function listen(btn, parts){
+  const same = tts.btn === btn;
+  stopSpeech();
+  if (same || !hasSpeech) return;
+  const mine = tts.token;
+  tts.btn = btn;
+  btn.textContent = 'Stop audio';
+  const queue = [];
+  parts.forEach(p => (p.t.match(/[^.!?]+[.!?]+|[^.!?]+$/g) || [p.t]).forEach(t => queue.push({t, e:p.e})));
+  let i = 0;
+  (function next(){
+    if (mine !== tts.token) return;
+    if (i >= queue.length){ stopSpeech(); return; }
+    const item = queue[i++];
+    const u = new SpeechSynthesisUtterance(item.t);
+    const sel = $(item.e ? 'employeeVoice' : 'voice').value;
+    if (sel !== '' && voices[Number(sel)]) u.voice = voices[Number(sel)];
+    u.rate = 0.94;
+    u.onend = next;
+    u.onerror = e => { if (e.error !== 'canceled' && e.error !== 'interrupted') stopSpeech(); };
+    speechSynthesis.speak(u);
+  })();
+}
+
+/* ---------- Recorder support ---------- */
+function pickMime(withVideo){
+  const list = withVideo
+    ? ['video/webm;codecs=vp9,opus','video/webm;codecs=vp8,opus','video/webm','video/mp4']
+    : ['audio/webm;codecs=opus','audio/webm','audio/mp4','audio/ogg;codecs=opus'];
+  return list.find(t => window.MediaRecorder && MediaRecorder.isTypeSupported(t)) || '';
+}
+function errorText(e){
+  if (e && (e.name === 'NotAllowedError' || e.name === 'SecurityError'))
+    return 'The browser blocked the camera or microphone. Allow access from the address bar and try again. If this page is inside Canvas, open it in its own tab using the link at the top.';
+  if (e && e.name === 'NotFoundError')
+    return 'No camera or microphone was found. Check your device, or choose audio only if a microphone is connected.';
+  return 'Recording could not start. Try Chrome, Edge, or Safari, or reload the page.';
+}
+
+/* ---------- Build the page ---------- */
+const panels = [];
+const tabsEl = $('tabs'), host = $('panels');
+
+cases.forEach((c, i) => {
+  const t = document.createElement('button');
+  t.className = 'tab';
+  t.textContent = (i+1) + '. ' + c.tab;
+  t.onclick = () => show(i);
+  tabsEl.append(t);
+
+  const p = document.createElement('section');
+  p.className = 'panel';
+  p.setAttribute('aria-label', 'Vignette ' + (i+1) + ': ' + c.tab);
+  p.hidden = true;
+  p.innerHTML = `
+    <ol class="steps"><li>Watch</li><li>Respond</li><li>Compare</li></ol>
+    <h2>${c.title}</h2>
+
+    <div class="section">
+      <h3>Watch</h3>
+      <p class="meta">${c.context}</p>
+      <div class="video-wrap"><iframe src="${c.videoEmbed}" loading="lazy" title="Employee video: ${c.tab}" allowfullscreen allow="encrypted-media; fullscreen; screen-wake-lock"></iframe></div>
+      <div class="row"><button class="secondary listen" data-label="Listen to the text">Listen to the text</button></div>
+      <details><summary>Show the text</summary><div class="quote">\u201C${c.employee}\u201D</div></details>
+    </div>
+
+    <div class="section">
+      <h3>Respond</h3>
+      <p class="task">${c.task}</p>
+      <p class="meta">Speak to the camera as if the employee is in front of you. Recording stops on its own at ${limitText(c.maxSeconds)}. You can record again as many times as you like.</p>
+      <div class="row"><label><input type="checkbox" class="audioonly"> Audio only (no camera)</label></div>
+      <div class="stage" hidden>
+        <video playsinline></video>
+        <div class="meter" aria-hidden="true"><span></span></div>
+        <div class="clock" aria-live="off"></div>
+      </div>
+      <div class="row">
+        <button class="record start">Start recording</button>
+        <button class="stop" hidden>Stop recording</button>
+        <button class="secondary retake" hidden>Record again</button>
+        <a class="dl" hidden><button class="secondary" type="button">Download my recording</button></a>
+      </div>
+      <p class="msg" role="status" aria-live="polite"></p>
+      <div class="upload" hidden>
+        <strong>Submit your recording.</strong> Download the file, then upload it to the assignment in Canvas.
+        ${CONFIG.uploadUrl ? `<div class="row"><a href="${CONFIG.uploadUrl}" target="_blank" rel="noopener">${CONFIG.uploadLabel}</a></div>` : ''}
+      </div>
+    </div>
+
+    <div class="section">
+      <h3>Compare</h3>
+      <div class="locked">
+        <p>The model response unlocks after you record your own. That way you compare your words with the model instead of copying it.</p>
+        <button class="linkbtn skip">I cannot record right now. Show the comparison.</button>
+      </div>
+      <div class="compare" hidden>
+        <div class="row"><button class="secondary listen" data-label="Listen to the model response">Listen to the model response</button></div>
+        <h3>One effective response</h3>
+        <div class="quote">\u201C${c.model}\u201D</div>
+        <h3>Why it works</h3>
+        <p>${c.why}</p>
+        <h3>Discuss</h3>
+        <p>${c.debrief}</p>
+        ${i < cases.length - 1 ? '<div class="row"><button class="next">Next vignette</button></div>' : ''}
+      </div>
+    </div>`;
+  host.append(p);
+  panels.push(wire(p, c, i));
+});
+
+function wire(p, c, i){
+  const q = s => p.querySelector(s);
+  const vid = q('video'), stage = q('.stage'), bar = q('.meter span'), clock = q('.clock');
+  const start = q('.start'), stop = q('.stop'), retake = q('.retake'), dl = q('.dl'), msg = q('.msg');
+  const upload = q('.upload'), audioOnly = q('.audioonly'), steps = [...p.querySelectorAll('.steps li')];
+  let stream, rec, chunks = [], timer, began, url, mime = '';
+
+  const setStage = n => steps.forEach((li, k) => { li.classList.toggle('done', k+1 < n); li.classList.toggle('active', k+1 === n); });
+  setStage(1);
+
+  q('.listen').onclick = e => listen(e.currentTarget, [{t:c.context, e:false}, {t:c.employee, e:true}]);
+  p.querySelectorAll('.listen')[1].onclick = e => listen(e.currentTarget, [{t:c.model, e:false}, {t:c.why, e:false}, {t:c.debrief, e:false}]);
+
+  function unlock(){
+    q('.locked').hidden = true;
+    q('.compare').hidden = false;
+    setStage(3);
+    q('.compare').scrollIntoView({behavior: reduceMotion ? 'auto' : 'smooth', block:'start'});
+  }
+  q('.skip').onclick = unlock;
+  const nextBtn = q('.next');
+  if (nextBtn) nextBtn.onclick = () => { show(i+1); window.scrollTo({top:0, behavior: reduceMotion ? 'auto' : 'smooth'}); };
+
+  function tick(){
+    const left = c.maxSeconds - (Date.now() - began) / 1000;
+    clock.textContent = 'Recording: ' + mmss(left) + ' left';
+    bar.style.width = Math.min(100, (1 - left / c.maxSeconds) * 100) + '%';
+    if (left <= 0){ msg.textContent = 'Time limit reached. Your recording stopped automatically.'; msg.className = 'msg ok'; finishRecording(); }
+  }
+
+  start.onclick = async () => {
+    stopSpeech();
+    msg.textContent = ''; msg.className = 'msg';
+    if (!navigator.mediaDevices || !window.MediaRecorder){ msg.textContent = 'This browser cannot record. Use a recent version of Chrome, Edge, or Safari.'; return; }
+    const withVideo = !audioOnly.checked;
+    try { stream = await navigator.mediaDevices.getUserMedia({audio:true, video:withVideo}); }
+    catch (e){ msg.textContent = errorText(e); return; }
+    mime = pickMime(withVideo);
+    try { rec = new MediaRecorder(stream, mime ? {mimeType:mime} : undefined); }
+    catch (e){ stream.getTracks().forEach(t => t.stop()); msg.textContent = errorText(e); return; }
+    chunks = [];
+    rec.ondataavailable = e => { if (e.data && e.data.size) chunks.push(e.data); };
+    rec.onstop = onStopped;
+    vid.srcObject = stream; vid.muted = true; vid.controls = false;
+    vid.play().catch(() => {});
+    stage.hidden = false; vid.style.visibility = withVideo ? 'visible' : 'hidden';
+    start.hidden = true; retake.hidden = true; dl.hidden = true; upload.hidden = true; stop.hidden = false;
+    audioOnly.disabled = true;
+    setStage(2);
+    rec.start();
+    began = Date.now();
+    tick();
+    timer = setInterval(tick, 200);
+  };
+
+  function finishRecording(){
+    clearInterval(timer);
+    if (rec && rec.state === 'recording') rec.stop();
+  }
+  stop.onclick = finishRecording;
+
+  function onStopped(){
+    stream.getTracks().forEach(t => t.stop());
+    const type = (rec && rec.mimeType) || mime || 'video/webm';
+    const blob = new Blob(chunks, {type});
+    if (url) URL.revokeObjectURL(url);
+    url = URL.createObjectURL(blob);
+    const ext = type.includes('mp4') ? 'mp4' : type.includes('ogg') ? 'ogg' : 'webm';
+    vid.srcObject = null; vid.src = url; vid.muted = false; vid.controls = true; vid.style.visibility = 'visible';
+    bar.style.width = '100%';
+    clock.textContent = 'Review your recording.';
+    dl.href = url; dl.download = 'Reju_' + (i+1) + '_' + c.file + '_response.' + ext;
+    stop.hidden = true; retake.hidden = false; dl.hidden = false; upload.hidden = false;
+    audioOnly.disabled = false;
+    if (!msg.textContent) { msg.textContent = 'Recording saved on this device. Watch it back, then download it.'; msg.className = 'msg ok'; }
+    unlock();
+  }
+
+  retake.onclick = () => {
+    if (url){ URL.revokeObjectURL(url); url = null; }
+    vid.removeAttribute('src'); vid.load();
+    stage.hidden = true; bar.style.width = '0'; clock.textContent = '';
+    msg.textContent = ''; msg.className = 'msg';
+    retake.hidden = true; dl.hidden = true; upload.hidden = true; start.hidden = false;
+    setStage(2);
+    start.focus();
+  };
+
+  return { abort(){ if (rec && rec.state === 'recording'){ msg.textContent = ''; finishRecording(); } } };
+}
+
+function show(n){
+  stopSpeech();
+  panels.forEach(pn => pn.abort());
+  host.querySelectorAll('.panel').forEach((el, k) => { el.hidden = k !== n; });
+  [...tabsEl.children].forEach((b, k) => b.setAttribute('aria-current', k === n ? 'true' : 'false'));
+}
+show(0);
+
+if (window.self !== window.top){
+  $('newTab').href = location.href;
+  $('embedNote').hidden = false;
+}
+</script>
+</body>
+</html>
